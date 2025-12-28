@@ -1,0 +1,1021 @@
+<!doctype html>
+<html lang="lv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Romeo un Džuljeta – I cēliens</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --capulet: #a61e4d;
+      --montague: #1c7ed6;
+      --stage: #6c757d;
+      --paper: #fbf7ef;
+      --ink: #1f2937;
+      --paper-dark: #111827;
+      --ink-dark: #e5e7eb;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    body.dark {
+      background: var(--paper-dark);
+      color: var(--ink-dark);
+    }
+    body.dark .card {
+      background: #0b1220;
+      color: var(--ink-dark);
+      border-color: rgba(255,255,255,.12);
+    }
+    body.dark .card-header {
+      background: rgba(255,255,255,.04);
+      border-color: rgba(255,255,255,.12);
+    }
+    body.dark .stage {
+      color: rgba(229,231,235,.7) !important;
+    }
+
+    /* Title page */
+    .title-page {
+      padding: 4rem 1rem 2rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+    }
+    body.dark .title-page {
+      border-bottom-color: rgba(255,255,255,.12);
+    }
+    .title-page h1 {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      letter-spacing: .02em;
+    }
+    .title-page .subtitle {
+      opacity: .8;
+    }
+
+    /* Speaker colors */
+    .speaker-capulet { color: var(--capulet) !important; }
+    .speaker-montague { color: var(--montague) !important; }
+    .speaker-neutral { color: inherit !important; }
+
+    /* Stage directions + dialogue typography */
+    .dialogue-text, .pro-line {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 1.05rem;
+      line-height: 1.55;
+    }
+    .stage {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      color: var(--stage);
+      margin: 1rem 0;
+    }
+
+    /* Active nav link (scrollspy-ish) */
+    .nav-link.active {
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* Highlighted speaker */
+    .line.highlight {
+      outline: 2px solid rgba(28,126,214,.35);
+      box-shadow: 0 0 0 4px rgba(28,126,214,.08);
+    }
+
+    /* Search highlight */
+    mark {
+      padding: 0 .15em;
+      border-radius: .2em;
+    }
+
+    /* Progress bar */
+    #progressWrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(0,0,0,.08);
+      z-index: 2000;
+    }
+    body.dark #progressWrap {
+      background: rgba(255,255,255,.12);
+    }
+    #progressBar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--montague), var(--capulet));
+      transition: width .15s ease;
+    }
+  </style>
+</head>
+<body>
+  <div id="progressWrap" aria-hidden="true"><div id="progressBar"></div></div>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#top">R&J</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div id="nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#prologs" data-nav="prologs">Prologs</a></li>
+          <li class="nav-item"><a class="nav-link" href="#aina1" data-nav="aina1">1. aina</a></li>
+        </ul>
+
+        <div class="d-flex gap-2 align-items-center">
+          <input id="searchInput" class="form-control form-control-sm" style="max-width: 220px;" type="search" placeholder="Meklēt… (piem., zobens)">
+          <select id="roleFilter" class="form-select form-select-sm" style="max-width: 220px;">
+            <option value="__all__">Rādīt visus tēlus</option>
+          </select>
+          <button id="randomQuoteBtn" class="btn btn-outline-light btn-sm" type="button">Nejauša citāta</button>
+          <button id="darkToggle" class="btn btn-light btn-sm" type="button">🌙</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <header id="top" class="title-page">
+    <div class="container">
+      <h1 class="display-5 mb-2">Romeo un Džuljeta – I cēliens</h1>
+      <div class="subtitle">Prologs un 1. ainas sākums</div>
+    </div>
+  </header>
+
+  <main class="container my-4">
+
+    <section id="prologs" class="mb-5" data-section>
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h2 class="h3 mb-0">PROLOGS</h2>
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle-section="prologs">
+          Slēpt/Rādīt prologu
+        </button>
+      </div>
+
+      <article class="p-3 rounded-3 border" id="prologueBody">
+        <p class='pro-line'>Two households, both alike in dignity,</p><p class='pro-line'>In fair Verona, where we lay our scene,</p><p class='pro-line'>From ancient grudge break to new mutiny,</p><p class='pro-line'>Where civil blood makes civil hands unclean.</p><p class='pro-line'>From forth the fatal loins of these two foes</p><p class='pro-line'>A pair of star-cross&#x27;d lovers take their life;</p><p class='pro-line'>Whose misadventured piteous overthrows</p><p class='pro-line'>Do with their death bury their parents&#x27; strife.</p><p class='pro-line'>The fearful passage of their death-mark&#x27;d love,</p><p class='pro-line'>And the continuance of their parents&#x27; rage,</p><p class='pro-line'>Which, but their children&#x27;s end, nought could remove,</p><p class='pro-line'>Is now the two hours&#x27; traffic of our stage;</p><p class='pro-line'>The which if you with patient ears attend,</p><p class='pro-line'>What here shall miss, our toil shall strive to mend.</p>
+      </article>
+    </section>
+
+    <section id="aina1" class="mb-4" data-section>
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+        <h2 class="h3 mb-0">SCENE I. Verona. A public place.</h2>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary btn-sm" type="button" id="hideAllDialoguesBtn">
+            Slēpt/Rādīt dialogu
+          </button>
+          <button class="btn btn-outline-secondary btn-sm" type="button" id="clearHighlightsBtn">
+            Noņemt izcēlumu
+          </button>
+        </div>
+      </div>
+
+      <article id="sceneBody">
+        <p class='stage text-muted fst-italic'>Enter SAMPSON and GREGORY, of the house of Capulet, armed with swords and bucklers</p>
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Gregory, o&#x27; my word, we&#x27;ll not carry coals.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">No, for then we should be colliers.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">I mean, an we be in choler, we&#x27;ll draw.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Ay, while you live, draw your neck out o&#x27; the collar.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">I strike quickly, being moved.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">But thou art not quickly moved to strike.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">A dog of the house of Montague moves me.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">To move is to stir; and to be valiant is to stand:<br>therefore, if thou art moved, thou runn&#x27;st away.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">A dog of that house shall move me to stand: I will<br>take the wall of any man or maid of Montague&#x27;s.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">That shows thee a weak slave; for the weakest goes<br>to the wall.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">True; and therefore women, being the weaker vessels,<br>are ever thrust to the wall: therefore I will push<br>Montague&#x27;s men from the wall, and thrust his maids<br>to the wall.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">The quarrel is between our masters and us their men.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">&#x27;Tis all one, I will show myself a tyrant: when I<br>have fought with the men, I will be cruel with the<br>maids, and cut off their heads.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">The heads of the maids?</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Ay, the heads of the maids, or their maidenheads;<br>take it in what sense thou wilt.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">They must take it in sense that feel it.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Me they shall feel while I am able to stand: and<br>&#x27;tis known I am a pretty piece of flesh.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">&#x27;Tis well thou art not fish; if thou hadst, thou<br>hadst been poor John. Draw thy tool! here comes<br>two of the house of the Montagues.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">My naked weapon is out: quarrel, I will back thee.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">How! turn thy back and run?</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Fear me not.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">No, marry; I fear thee!</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Let us take the law of our sides; let them begin.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">I will frown as I pass by, and let them take it as<br>they list.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Nay, as they dare. I will bite my thumb at them;<br>which is a disgrace to them, if they bear it.</p>
+          </div>
+        </div>
+        
+<p class='stage text-muted fst-italic'>Enter ABRAHAM and BALTHASAR</p>
+
+        <div class="line card mb-2" data-speaker="ABRAHAM" data-house="montague">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-montague" type="button" data-speaker-btn="ABRAHAM">ABRAHAM</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="montague">Montague</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Do you bite your thumb at us, sir?</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">I do bite my thumb, sir.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="ABRAHAM" data-house="montague">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-montague" type="button" data-speaker-btn="ABRAHAM">ABRAHAM</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="montague">Montague</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Do you bite your thumb at us, sir?</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">[Aside to GREGORY] Is the law of our side, if I say<br>ay?</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">No.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">No, sir, I do not bite my thumb at you, sir, but I<br>bite my thumb, sir.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Do you quarrel, sir?</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="ABRAHAM" data-house="montague">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-montague" type="button" data-speaker-btn="ABRAHAM">ABRAHAM</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="montague">Montague</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Quarrel sir! no, sir.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">If you do, sir, I am for you: I serve as good a man as you.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="ABRAHAM" data-house="montague">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-montague" type="button" data-speaker-btn="ABRAHAM">ABRAHAM</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="montague">Montague</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">No better.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Well, sir.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="GREGORY" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="GREGORY">GREGORY</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Say &#x27;better:&#x27; here comes one of my master&#x27;s kinsmen.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Yes, better, sir.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="ABRAHAM" data-house="montague">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-montague" type="button" data-speaker-btn="ABRAHAM">ABRAHAM</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="montague">Montague</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">You lie.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="SAMPSON" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="SAMPSON">SAMPSON</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Draw, if you be men. Gregory, remember thy swashing blow.</p>
+          </div>
+        </div>
+        
+<p class='stage text-muted fst-italic'>They fight</p>
+<p class='stage text-muted fst-italic'>Enter BENVOLIO</p>
+
+        <div class="line card mb-2" data-speaker="BENVOLIO" data-house="montague">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-montague" type="button" data-speaker-btn="BENVOLIO">BENVOLIO</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="montague">Montague</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Part, fools!<br>Put up your swords; you know not what you do.</p>
+          </div>
+        </div>
+        
+<p class='stage text-muted fst-italic'>Beats down their swords</p>
+<p class='stage text-muted fst-italic'>Enter TYBALT</p>
+
+        <div class="line card mb-2" data-speaker="TYBALT" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="TYBALT">TYBALT</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">What, art thou drawn among these heartless hinds?<br>Turn thee, Benvolio, look upon thy death.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="BENVOLIO" data-house="montague">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-montague" type="button" data-speaker-btn="BENVOLIO">BENVOLIO</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="montague">Montague</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">I do but keep the peace: put up thy sword,<br>Or manage it to part these men with me.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="TYBALT" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="TYBALT">TYBALT</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">What, drawn, and talk of peace! I hate the word,<br>As I hate hell, all Montagues, and thee:<br>Have at thee, coward!</p>
+          </div>
+        </div>
+        
+<p class='stage text-muted fst-italic'>They fight</p>
+<p class='stage text-muted fst-italic'>Enter, several of both houses, who join the fray; then enter Citizens, with clubs</p>
+<p class='stage text-muted fst-italic'>First Citizen</p>
+<p class='stage text-muted fst-italic'>Clubs, bills, and partisans! strike! beat them down!
+Down with the Capulets! down with the Montagues!</p>
+<p class='stage text-muted fst-italic'>Enter CAPULET in his gown, and LADY CAPULET</p>
+
+        <div class="line card mb-2" data-speaker="CAPULET" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="CAPULET">CAPULET</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">What noise is this? Give me my long sword, ho!</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="LADY CAPULET" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="LADY CAPULET">LADY CAPULET</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">A crutch, a crutch! why call you for a sword?</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="CAPULET" data-house="capulet">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-capulet" type="button" data-speaker-btn="CAPULET">CAPULET</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="capulet">Capulet</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">My sword, I say! Old Montague is come,<br>And flourishes his blade in spite of me.</p>
+          </div>
+        </div>
+        
+<p class='stage text-muted fst-italic'>Enter MONTAGUE and LADY MONTAGUE</p>
+
+        <div class="line card mb-2" data-speaker="MONTAGUE" data-house="montague">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-montague" type="button" data-speaker-btn="MONTAGUE">MONTAGUE</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="montague">Montague</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Thou villain Capulet,--Hold me not, let me go.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="LADY MONTAGUE" data-house="montague">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-montague" type="button" data-speaker-btn="LADY MONTAGUE">LADY MONTAGUE</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="montague">Montague</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Thou shalt not stir a foot to seek a foe.</p>
+          </div>
+        </div>
+        
+<p class='stage text-muted fst-italic'>Enter PRINCE, with Attendants</p>
+
+        <div class="line card mb-2" data-speaker="PRINCE" data-house="neutral">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-neutral" type="button" data-speaker-btn="PRINCE">PRINCE</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="neutral">Other</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Rebellious subjects, enemies to peace,<br>Profaners of this neighbour-stained steel,--<br>Will they not hear? What, ho! you men, you beasts,<br>That quench the fire of your pernicious rage<br>With purple fountains issuing from your veins,<br>On pain of torture, from those bloody hands<br>Throw your mistemper&#x27;d weapons to the ground,<br>And hear the sentence of your moved prince.<br>Three civil brawls, bred of an airy word,<br>By thee, old Capulet, and Montague,<br>Have thrice disturb&#x27;d the quiet of our streets,<br>And made Verona&#x27;s ancient citizens<br>Cast by their grave beseeming ornaments,<br>To wield old partisans, in hands as old,<br>Canker&#x27;d with peace, to part your canker&#x27;d hate:<br>If ever you disturb our streets again,<br>Your lives shall pay the forfeit of the peace.<br>For this time, all the rest depart away:<br>You Capulet; shall go along with me:<br>And, Montague, come you this afternoon,<br>To know our further pleasure in this case,<br>To old Free-town, our common judgment-place.<br>Once more, on pain of death, all men depart.</p>
+          </div>
+        </div>
+        
+<p class='stage text-muted fst-italic'>Exeunt all but MONTAGUE, LADY MONTAGUE, and BENVOLIO</p>
+
+        <div class="line card mb-2" data-speaker="MONTAGUE" data-house="montague">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-montague" type="button" data-speaker-btn="MONTAGUE">MONTAGUE</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="montague">Montague</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Who set this ancient quarrel new abroach?<br>Speak, nephew, were you by when it began?</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="BENVOLIO" data-house="montague">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-montague" type="button" data-speaker-btn="BENVOLIO">BENVOLIO</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="montague">Montague</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">Here were the servants of your adversary,<br>And yours, close fighting ere I did approach:<br>I drew to part them: in the instant came<br>The fiery Tybalt, with his sword prepared,<br>Which, as he breathed defiance to my ears,<br>He swung about his head and cut the winds,<br>Who nothing hurt withal hiss&#x27;d him in scorn:<br>While we were interchanging thrusts and blows,<br>Came more and more and fought on part and part,<br>Till the prince came, who parted either part.</p>
+          </div>
+        </div>
+        
+
+        <div class="line card mb-2" data-speaker="LADY MONTAGUE" data-house="montague">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <button class="btn btn-link p-0 speaker-btn fw-bold speaker-montague" type="button" data-speaker-btn="LADY MONTAGUE">LADY MONTAGUE</button>
+            <span class="badge bg-secondary family-badge" data-house-badge="montague">Montague</span>
+          </div>
+          <div class="card-body py-2">
+            <p class="mb-0 dialogue-text">O, where is Romeo? saw you him to-day?<br>Right glad I am he was not at this fray.</p>
+          </div>
+        </div>
+        
+      </article>
+
+      <div class="mt-3 p-3 rounded-3 border" id="quoteBox" hidden>
+        <div class="small text-muted mb-1">Nejauša citāta</div>
+        <div id="quoteText" class="dialogue-text"></div>
+      </div>
+    </section>
+
+    <footer class="py-4 text-center text-muted">
+      Izstrādes uzdevums: Romeo un Džuljeta — Prologs + 1. aina (GitHub Pages).
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // ---------- Helpers ----------
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+    const $ = (sel, root=document) => root.querySelector(sel);
+
+    const STORAGE = {
+      dark: "rj_dark_mode",
+      role: "rj_role_filter",
+      search: "rj_search",
+    };
+
+    // ---------- Populate role filter ----------
+    const roleFilter = $("#roleFilter");
+    const lines = $$(".line");
+    const speakers = [...new Set(lines.map(el => el.dataset.speaker))].sort();
+    for (const sp of speakers) {
+      const opt = document.createElement("option");
+      opt.value = sp;
+      opt.textContent = sp;
+      roleFilter.appendChild(opt);
+    }
+
+    // ---------- Dark mode (localStorage) ----------
+    const darkToggle = $("#darkToggle");
+    const setDark = (on) => {
+      document.body.classList.toggle("dark", on);
+      localStorage.setItem(STORAGE.dark, on ? "1" : "0");
+      darkToggle.textContent = on ? "☀️" : "🌙";
+    };
+    setDark(localStorage.getItem(STORAGE.dark) === "1");
+    darkToggle.addEventListener("click", () => setDark(!document.body.classList.contains("dark")));
+
+    // ---------- Hide/Show prologue ----------
+    const proBody = $("#prologueBody");
+    $$("[data-toggle-section]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        proBody.hidden = !proBody.hidden;
+      });
+    });
+
+    // ---------- Hide/Show all dialogue cards ----------
+    const hideAllDialoguesBtn = $("#hideAllDialoguesBtn");
+    let dialoguesHidden = false;
+    hideAllDialoguesBtn.addEventListener("click", () => {
+      dialoguesHidden = !dialoguesHidden;
+      lines.forEach(el => el.hidden = dialoguesHidden);
+    });
+
+    // ---------- Click speaker -> highlight all lines ----------
+    const clearHighlightsBtn = $("#clearHighlightsBtn");
+    function clearHighlights() {
+      lines.forEach(el => el.classList.remove("highlight"));
+    }
+    clearHighlightsBtn.addEventListener("click", clearHighlights);
+
+    $$(".speaker-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const sp = btn.dataset.speakerBtn;
+        clearHighlights();
+        lines.filter(el => el.dataset.speaker === sp).forEach(el => el.classList.add("highlight"));
+      });
+    });
+
+    // ---------- Random quote ----------
+    const quoteBox = $("#quoteBox");
+    const quoteText = $("#quoteText");
+    $("#randomQuoteBtn").addEventListener("click", () => {
+      // Take only visible dialogue lines (not stage) for better UX
+      const visible = lines.filter(el => !el.hidden);
+      const pickFrom = visible.length ? visible : lines;
+      const rand = pickFrom[Math.floor(Math.random() * pickFrom.length)];
+      const sp = rand.dataset.speaker;
+      const text = $(".dialogue-text", rand).innerText;
+      quoteText.textContent = sp + ": " + text;
+      quoteBox.hidden = false;
+      quoteBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+
+    // ---------- Search highlight ----------
+    const searchInput = $("#searchInput");
+
+    function stripMarks(node) {
+      // Remove <mark> tags inside node
+      $$("mark", node).forEach(m => {
+        const t = document.createTextNode(m.textContent);
+        m.replaceWith(t);
+      });
+    }
+
+    function highlightTerm(term) {
+      // Clear previous marks
+      lines.forEach(el => stripMarks(el));
+
+      if (!term) return;
+
+      const re = new RegExp(term.replace(/[.*+?^{}()|[\]\\]/g, "\\$&"), "gi");
+
+      lines.forEach(el => {
+        const p = $(".dialogue-text", el);
+        const text = p.textContent;
+        if (!re.test(text)) return;
+
+        // Rebuild with marks
+        const parts = text.split(re);
+        const matches = text.match(re);
+        const frag = document.createDocumentFragment();
+
+        parts.forEach((part, i) => {
+          frag.appendChild(document.createTextNode(part));
+          if (matches && matches[i]) {
+            const mark = document.createElement("mark");
+            mark.textContent = matches[i];
+            frag.appendChild(mark);
+          }
+        });
+
+        p.textContent = "";
+        p.appendChild(frag);
+      });
+    }
+
+    function applySearchFromInput() {
+      const term = searchInput.value.trim();
+      localStorage.setItem(STORAGE.search, term);
+      highlightTerm(term);
+    }
+
+    searchInput.addEventListener("input", () => {
+      // debounce-lite
+      window.clearTimeout(searchInput._t);
+      searchInput._t = window.setTimeout(applySearchFromInput, 150);
+    });
+    // restore
+    const savedTerm = localStorage.getItem(STORAGE.search) || "";
+    if (savedTerm) {
+      searchInput.value = savedTerm;
+      highlightTerm(savedTerm);
+    }
+
+    // ---------- Role filter ----------
+    function applyRoleFilter() {
+      const val = roleFilter.value;
+      localStorage.setItem(STORAGE.role, val);
+
+      // Keep stage directions always visible
+      if (val === "__all__") {
+        lines.forEach(el => el.hidden = dialoguesHidden ? true : false);
+        return;
+      }
+
+      lines.forEach(el => {
+        const match = el.dataset.speaker === val;
+        el.hidden = dialoguesHidden ? true : !match;
+      });
+    }
+
+    roleFilter.addEventListener("change", applyRoleFilter);
+    // restore
+    const savedRole = localStorage.getItem(STORAGE.role);
+    if (savedRole && speakers.includes(savedRole)) {
+      roleFilter.value = savedRole;
+      applyRoleFilter();
+    }
+
+    // ---------- Active nav link + progress bar ----------
+    const navLinks = $$("a[data-nav]");
+    const sections = $$("[data-section]");
+    const progressBar = $("#progressBar");
+
+    let activeSectionId = "prologs";
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      // pick the entry with highest intersection ratio
+      const visible = entries.filter(e => e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+      if (!visible) return;
+      activeSectionId = visible.target.id;
+
+      navLinks.forEach(a => a.classList.toggle("active", a.dataset.nav === activeSectionId));
+
+      // reset progress tracking when section changes
+      resetProgressForSection(activeSectionId);
+    }, { root: null, threshold: [0.2, 0.4, 0.6] });
+
+    sections.forEach(sec => sectionObserver.observe(sec));
+
+    // Progress: count dialogue cards seen in viewport within the active section
+    const seenBySection = new Map();
+    function resetProgressForSection(sectionId) {
+      if (!seenBySection.has(sectionId)) seenBySection.set(sectionId, new Set());
+      updateProgress(sectionId);
+    }
+
+    function updateProgress(sectionId) {
+      const sec = document.getElementById(sectionId);
+      if (!sec) return;
+
+      const linesInSection = $$(".line", sec).filter(el => !el.hidden);
+      const seenSet = seenBySection.get(sectionId) || new Set();
+      const total = linesInSection.length || 1;
+      const pct = Math.min(100, Math.round((seenSet.size / total) * 100));
+      progressBar.style.width = pct + "%";
+    }
+
+    const lineObserver = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        const lineEl = e.target;
+        const sec = lineEl.closest("[data-section]");
+        if (!sec) continue;
+
+        const sid = sec.id;
+        if (!seenBySection.has(sid)) seenBySection.set(sid, new Set());
+        seenBySection.get(sid).add(lineEl);
+
+        if (sid === activeSectionId) updateProgress(sid);
+      }
+    }, { threshold: 0.6 });
+
+    $$(".line").forEach(el => lineObserver.observe(el));
+
+    // Initial nav state
+    navLinks.forEach(a => a.classList.toggle("active", a.dataset.nav === "prologs"));
+    resetProgressForSection("prologs");
+  </script>
+</body>
+</html>
